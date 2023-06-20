@@ -1,46 +1,153 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Exercise Tracker | freeCodeCamp</title>
-    <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon.ico"  type="image/x-icon" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
 
-  <body>
-    <div class="container">
-      <h1>Exercise tracker</h1>
-      <form action="/api/users" method="post">
-        <h3>Create a New User</h3>
-        <p><code>POST /api/users</code></p>
-        <input id="uname" type="text" name="username" placeholder="username" />
-        <input type="submit" value="Submit" />
-      </form>
-      <form id="exercise-form" method="post">
-        <h3>Add exercises</h3>
-        <p><code>POST /api/users/:_id/exercises</code></p>
-        <input id="uid" type="text" name=":_id" placeholder=":_id" />
-        <input id="desc" type="text" name="description" placeholder="description*" />
-        <input id="dur" type="text" name="duration" placeholder="duration* (mins.)" />
-        <input id="date" type="text" name="date" placeholder="date (yyyy-mm-dd)" />
-        <input type="submit" value="Submit" />
-      </form>
-      <p>
-        <strong>GET user's exercise log: </strong>
-        <code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code>
-      </p>
-      <p><strong>[ ]</strong> = optional</p>
-      <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number</p>
+<head>
+  <title>Exercise Tracker | freeCodeCamp</title>
+  <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon-32x32.png" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto&family=Source+Code+Pro:wght@700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <link href="normalize.css" rel="stylesheet" type="text/css">
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-container">
+      <a class="logo" href="/">
+        <img class="logo__img" src="img/logo_only.svg" alt="johnapco">
+        <h2 class="logo__name">JohnApCo</h2>
+      </a>
+      <nav class="icons">
+        <a class="icon link" href="https://github.com/JohnApCo" target="_blank" rel="noopener nofollow">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a class="icon link" href="https://www.linkedin.com/in/johnapco/" target="_blank" rel="noopener nofollow">
+          <i class="fa-brands fa-linkedin"></i></a>
+        <button class="icon link theme-toggle" id="emoticon-mode" rel="noopener nofollow">
+          <i class="fa fa-moon"></i>
+        </button>
+      </nav>
     </div>
     <script>
-      const exerciseForm = document.getElementById("exercise-form");
+      (function(d, w, ls) {
+        const $btn = d.querySelector(".theme-toggle");
+        let prefersDark = w.matchMedia('(prefers-color-scheme: dark)').matches,
+          lightIcon = `<i class="fa-solid fa-sun"></i>`,
+          darkIcon = `<i class="fa-solid fa-moon"></i>`;
 
-      exerciseForm.addEventListener("submit", () => {
-        const userId = document.getElementById("uid").value;
-        exerciseForm.action = `/api/users/${userId}/exercises`;
+        function lightMode() {
+          ls.setItem("theme", "light");
+          d.querySelector(":root").classList.add("light");
+          d.querySelector(":root").classList.remove("dark");
+          $btn.innerHTML = lightIcon;
+        }
 
-        exerciseForm.submit();
-      });
+        function darkMode() {
+          ls.setItem("theme", "dark");
+          d.querySelector(":root").classList.remove("light");
+          d.querySelector(":root").classList.add("dark");
+          $btn.innerHTML = darkIcon;
+        }
+
+        if (ls.getItem("theme") === null) {
+          if (prefersDark) {
+            ls.setItem("theme", "dark");
+          } else {
+            ls.setItem("theme", "light");
+          }
+        }
+
+        if (ls.getItem("theme") === "dark") darkMode();
+        if (ls.getItem("theme") === "light") lightMode();
+
+        $btn.addEventListener("click", (e) => (ls.getItem("theme") === "dark") ? lightMode() : darkMode());
+      })(document, window, localStorage);
     </script>
-  </body>
+  </header>
+  <main class="main">
+    <section class="container-lg">
+      <h1 class="text-center">
+        <span>Exercise</span><wbr><span class="text-primary">Tracker</span>
+      </h1>
+    </section>
+    <section class="container-lg api-examples">
+      <!-- Create User -->
+      <article class="card">
+        <h2 class="card__title">Create a New User</h2>
+        <pre>
+          <span class="key">POST</span> /api/users
+        </pre>
+        <label class="form__label" for="username">Username:</label>
+        <form class="form" action="/api/users" method="POST">
+          <input class="form__input" id="username" type="text" name="username" placeholder="username" />
+          <input class="form__btn" type="submit" value="Submit" />
+        </form>
+      </article>
+      <!-- Add Exercise -->
+      <article class="card">
+        <h2 class="card__title">Add exercises</h2>
+        <pre>
+          <span class="key">POST</span> /api/users/:_id/exercises
+        </pre>
+        <span class="form__label">Information:</span>
+        <form id="exercise-form" class="form" action="api/shorturl" method="POST">
+          <input class="form__input" id="uid" type="text" name=":_id" placeholder=":_id" />
+          <input class="form__input" id="desc" type="text" name="description" placeholder="description*" />
+          <input class="form__input" id="dur" type="number" name="duration" placeholder="duration* (mins)" />
+          <input class="form__input" id="date" type="date" name="date" placeholder="date (yyyy-mm-dd)" />
+          <input class="form__btn" type="submit" value="Submit" />
+        </form>
+      </article>
+      <!-- Use API -->
+      <article class="card">
+        <h2 class="card__title">GET user's exercise log</h2>
+        <pre>
+          <span class="key">GET</span> /api/users/:_id/logs?[from][&amp;to][&amp;limit]
+        </pre>
+        <p><strong>[ ]</strong> = optional</p>
+        <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number</p>
+        <span class="form__label">This:</span>
+        <pre>
+          /api/shorturl/3
+        </pre>
+        <span class="form__label">Will redirect to:</span>
+        <pre id="beautified">
+        </pre>
+        <form action="api/shorturl/3" method="GET">
+          <button class="form__btn" type="submit">Try it</button>
+        </form>
+      </article>
+    </section>
+  </main>
+  <footer class="footer">
+    <script>
+      document.write(new Date().getFullYear())
+    </script> | Coded with <i class="fa fa-heart"></i> by <a href="https://www.linkedin.com/in/johnapco/" target="_blank" rel="noopener noreferrer">JohnApCo</a>
+  </footer>
+  <script>
+    var data = {
+      "result": [{
+        "id": "103300640",
+        "sms_phone": "730276061",
+        "corrected to": "27730276061"
+      }, {
+        "id": "103277733",
+        "sms_phone": "716125197",
+        "corrected  to": "27716125197"
+      }]
+    }
+    document.getElementById("beautified").innerHTML = JSON.stringify(data, undefined, '\t');
+
+
+    const exerciseForm = document.getElementById("exercise-form");
+
+    exerciseForm.addEventListener("submit", () => {
+      const userId = document.getElementById("uid").value;
+      exerciseForm.action = `/api/users/${userId}/exercises`;
+
+      exerciseForm.submit();
+    });
+  </script>
+</body>
+
 </html>
