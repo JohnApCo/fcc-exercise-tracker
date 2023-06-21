@@ -90,11 +90,11 @@
           <span class="key">POST</span> /api/users/:_id/exercises
         </pre>
         <span class="form__label">Information:</span>
-        <form id="exercise-form" class="form" action="api/shorturl" method="POST">
+        <form id="exercise-form" class="form" action="api/users/:_id/exercises" method="POST">
           <input class="form__input" id="uid" type="text" name=":_id" placeholder=":_id" />
           <input class="form__input" id="desc" type="text" name="description" placeholder="description*" />
           <input class="form__input" id="dur" type="number" name="duration" placeholder="duration* (mins)" />
-          <input class="form__input" id="date" type="date" name="date" placeholder="date (yyyy-mm-dd)" />
+          <input class="form__input" id="date" type="string" name="date" placeholder="date (yyyy-mm-dd)" />
           <input class="form__btn" type="submit" value="Submit" />
         </form>
       </article>
