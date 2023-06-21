@@ -83,6 +83,25 @@
           <input class="form__btn" type="submit" value="Submit" />
         </form>
       </article>
+      <!-- Get Users -->
+      <article class="card">
+        <h2 class="card__title">Get Users</h2>
+        <pre>
+                <span class="key">GET</span> /api/users
+              </pre>
+        <span class="form__label">Will redirect to:</span>
+        <pre>
+        [
+          {
+            "_id": "649218a84b16f3cdd9e585f8",
+            "username": "JohnApCo"
+          }
+        ]
+        </pre>
+        <form action="api/users" method="GET">
+          <button class="form__btn" type="submit">Try it</button>
+        </form>
+      </article>
       <!-- Add Exercise -->
       <article class="card">
         <h2 class="card__title">Add exercises</h2>
@@ -108,12 +127,12 @@
         <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number</p>
         <span class="form__label">This:</span>
         <pre>
-          /api/shorturl/3
+          /api/users/649218a84b16f3cdd9e585f8/logs
         </pre>
         <span class="form__label">Will redirect to:</span>
         <pre id="beautified">
         </pre>
-        <form action="api/shorturl/3" method="GET">
+        <form action="api/users/649218a84b16f3cdd9e585f8/logs" method="GET">
           <button class="form__btn" type="submit">Try it</button>
         </form>
       </article>
@@ -126,14 +145,13 @@
   </footer>
   <script>
     var data = {
-      "result": [{
-        "id": "103300640",
-        "sms_phone": "730276061",
-        "corrected to": "27730276061"
-      }, {
-        "id": "103277733",
-        "sms_phone": "716125197",
-        "corrected  to": "27716125197"
+      username: "fcc_test",
+      count: 1,
+      _id: "5fb5853f734231456ccb3b05",
+      log: [{
+        description: "test",
+        duration: 60,
+        date: "Mon Jan 01 1990",
       }]
     }
     document.getElementById("beautified").innerHTML = JSON.stringify(data, undefined, '\t');
